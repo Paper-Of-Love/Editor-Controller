@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor Controller</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Login -->
+  <section class="view" id="loginView">
+    <form class="login-card" id="loginForm">
+      <h1>Editor Controller</h1>
+      <p class="login-sub">Sign in to review posts.</p>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="loginPassword" autocomplete="current-password" required>
+      </label>
+      <p class="login-error" id="loginError" hidden></p>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="view" id="dashboardView" hidden>
+    <header class="app-header">
+      <h1>Editor Controller</h1>
+      <button class="btn btn-ghost" id="logoutButton">Sign out</button>
+    </header>
+    <main class="dashboard-main">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-status="">All</button>
+        <button class="filter-tab" data-status="unpublished">Unpublished</button>
+        <button class="filter-tab" data-status="returned">Returned</button>
+        <button class="filter-tab" data-status="published">Published</button>
+      </div>
+      <ul class="post-list" id="postList"></ul>
+      <p class="empty-state" id="emptyState" hidden>No posts here.</p>
+    </main>
+  </section>
+
+  <!-- Detail / edit -->
+  <section class="view" id="detailView" hidden>
+    <header class="app-header">
+      <button class="btn btn-ghost" id="backButton">&larr; All posts</button>
+      <span class="save-status" id="saveStatus"></span>
+    </header>
+
+    <main class="detail-main">
+      <p class="status-line">
+        Status: <span class="status-badge" id="statusBadge"></span>
+        &middot; by <span id="detailAuthor"></span>
+        &middot; updated <span id="detailUpdated"></span>
+      </p>
+
+      <label class="field">
+        <span>Author (byline)</span>
+        <input type="text" id="fieldByline">
+      </label>
+
+      <label class="field">
+        <span>Title</span>
+        <input type="text" id="fieldTitle">
+      </label>
+
+      <label class="field">
+        <span>Header image URL</span>
+        <input type="text" id="fieldImage" placeholder="https://...">
+      </label>
+      <img class="image-preview" id="imagePreview" hidden>
+
+      <label class="field">
+        <span>Body</span>
+        <textarea class="body-textarea" id="fieldBody"></textarea>
+      </label>
+
+      <div class="detail-actions">
+        <button class="btn btn-ghost" id="saveButton">Save changes</button>
+        <button class="btn btn-primary" id="publishButton">Publish</button>
+        <button class="btn btn-ghost" id="unpublishButton">Unpublish</button>
+        <button class="btn btn-danger-solid" id="returnButton">Return with comment&hellip;</button>
+      </div>
+      <p class="action-error" id="actionError" hidden></p>
+    </main>
+  </section>
+
+  <!-- Return-with-comment modal -->
+  <div class="modal-overlay" id="returnModal" hidden>
+    <div class="modal">
+      <h2>Return to author</h2>
+      <label class="field">
+        <span>Comment for the author</span>
+        <textarea id="returnComment" rows="4" placeholder="What needs to change before this can be published?"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="returnCancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="returnConfirm">Send back</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
