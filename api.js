@@ -1,4 +1,4 @@
-const API_BASE = "https://newspaper-backend-w3kl.onrender.com/api";
+const API_BASE = "https://paper-of-love-backend.fly.dev/api";
 
 async function apiRequest(path, options) {
   const res = await fetch(`${API_BASE}${path}`, {
