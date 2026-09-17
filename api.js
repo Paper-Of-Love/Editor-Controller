@@ -1,9 +1,22 @@
 const API_BASE = "https://paper-of-love-backend.fly.dev/api";
+const TOKEN_KEY = "editorToken";
+
+function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+function setToken(token) {
+  if (token) localStorage.setItem(TOKEN_KEY, token);
+  else localStorage.removeItem(TOKEN_KEY);
+}
 
 async function apiRequest(path, options) {
+  const token = getToken();
+  const headers = { "Content-Type": "application/json" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
   const res = await fetch(`${API_BASE}${path}`, {
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
+    headers,
     ...options,
   });
   let data = null;
@@ -20,19 +33,26 @@ async function apiRequest(path, options) {
 }
 
 const api = {
-  login(password) {
-    return apiRequest("/auth/login", {
+  async login(password) {
+    const result = await apiRequest("/auth/login", {
       method: "POST",
       body: JSON.stringify({ role: "editor", password }),
     });
+    setToken(result.token);
+    return result;
   },
 
-  logout() {
-    return apiRequest("/auth/logout", { method: "POST" });
+  async logout() {
+    setToken(null);
+    try {
+      await apiRequest("/auth/logout", { method: "POST" });
+    } catch (e) {
+      // token already cleared client-side; server call is best-effort
+    }
   },
 
   me() {
-    return apiRequest("/auth/me");
+    return apiRequest("/auth/me?role=editor");
   },
 
   listPosts(status) {
