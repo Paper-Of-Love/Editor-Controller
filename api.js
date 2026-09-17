@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:4000/api";
+const API_BASE = "https://newspaper-backend-w3kl.onrender.com/api";
 
 async function apiRequest(path, options) {
   const res = await fetch(`${API_BASE}${path}`, {
